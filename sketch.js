@@ -4,39 +4,68 @@ const numCols = 10;
 let gameOver;
 let gameMap;
 let frog;
-let car;
-let cars1 = [];
+let cars;
+let logs;
+let turtles;
 function setup() {
-    for(let i = 0; i < 3; i++){
-        cars1.push(new MovingObject(1/6 * tileDimension + i * 4 * tileDimension, tileDimension* (numRows - 2) + 1/6 * (tileDimension), tileDimension * 2/3, 1, 50, tileDimension));
-    }
+    turtles = new Turtles(numRows, tileDimension);
+    cars = new Cars(numRows, tileDimension);
+    cars.setup(1);
+    logs = new Logs(numRows, tileDimension);
+    logs.setup(1);
+    turtles.setup(1);
     gameOver = false;
-    gameMap = new GameMap(numCols, numRows, tileDimension);
+    gameMap = new GameMap(numCols, numRows, tileDimension, tileDimension);
     gameMap.setup();
-    car = new MovingObject(1/6 * tileDimension, tileDimension* (numRows - 2) + 1/6 * (tileDimension), tileDimension * 2/3, 1, 50, tileDimension);
-    frog = new Frog((tileDimension * numCols/2) - 3/4 * tileDimension, tileDimension * (numRows - 1) + 1/4 * tileDimension, tileDimension/2, tileDimension);
+    frog = new Frog((tileDimension * numCols/2) - 3/4 * tileDimension, tileDimension * (numRows - 1) + 1/4 * tileDimension, tileDimension/2, tileDimension/2, tileDimension);
     createCanvas(tileDimension * numCols - 2/3 * tileDimension, tileDimension * numRows);
 }
   
 function draw() {
     background(220);
     gameMap.display();
+    logs.display();
+    logs.move();
+    turtles.display();
     frog.display();
-    car.display();
-    for(let i = 0; i < 3; i++){
-        cars1[i].display()
-    }
+    cars.display();
+    cars.move();
+    turtles.move();
     if(!gameOver){
         frog.move();
-
-        if(car.intersects(frog)){
+        if(cars.intersects(frog)){
+            fill(200,200,200);
             rect(frog.getX(), frog.getY(), tileDimension, tileDimension);
             gameOver = true;
         }
-    }
-    for(let i = 0; i < 3; i++){
-        cars1[i].move()
-    }
-    car.move();
+        if(logs.intersects(frog)){
+            console.log('safe')
+            frog.onFloater(true);
+            frog.floatMove(logs.getMomentum());
+        }
+        else if(turtles.intersects(frog)){
+            frog.onFloater(true);
+            frog.floatMove(turtles.getMomentum());
+            console.log('safe')
+        }else if(gameMap.intersectsWater(frog)){
+            fill(200,200,200);
+            rect(frog.getX(), frog.getY(), tileDimension, tileDimension);
+            gameOver = true;
+        }else if(gameMap.intersectsHome(frog)){
+            if(!gameMap.getCurrentTile().getOpen()){
+                fill(200,200,200);
+                rect(frog.getX(), frog.getY(), tileDimension, tileDimension);
+                gameOver = true;
+            }else if(gameMap.getCurrentTile().getOpen()){
+                frog.resetPos((tileDimension * numCols/2) - 3/4 * tileDimension, tileDimension * (numRows - 1) + 1/4 * tileDimension)
+                gameMap.getCurrentTile().fillHome();
+            }
 
+        }else{
+            frog.onFloater(false);
+        }
+
+    }else{
+        console.log('over')
+    }
 }

@@ -1,22 +1,48 @@
 class Frog extends Rectangle {
-    constructor(x, y, dimension, worldDimension){
-        super(x, y, dimension);
+    constructor(x, y, width, height, worldDimension){
+        super(x, y, width, height);
         this.worldDimension = worldDimension;
         this.currentPoint = createVector(x, y);
         this.movePoint = this.currentPoint;
         this.isMoving = false;
+        this.isFloating = false;
     }
 
     display() {
         noStroke();
         fill(0, 200, 0);
-        rect(this.currentPoint.x, this.currentPoint.y, this.dimension, this.dimension);
+        text(`${this.currentPoint.x}, ${this.currentPoint.y}`, this.currentPoint.x, this.currentPoint.y);
+        rect(this.currentPoint.x, this.currentPoint.y, this.width, this.height);
     }
+    floatMove(momentum){
 
+        if(this.isFloating && !this.isMoving){
+            this.currentPoint.x += momentum;
+        }
+    }
+    resetPos(x,y){
+        this.routine = null;
+        this.currentPoint.x = x;
+        this.currentPoint.y = y;
+        this.isMoving = false;
+    }
     move(){
         //if routine exists then execute the movement per frame per the draw function, returns undefined when frog has finished moving
         if(this.routine) { 
             this.routine.next()
+        }
+        let xRem = 0;
+        if(this.isFloating){
+            xRem = this.currentPoint.x % this.worldDimension;
+            if(xRem + this.width/2 > this.worldDimension) {
+                this.trueX = this.currentPoint.x - xRem + this.worldDimension;
+            }else {
+                this.trueX = this.currentPoint.x - xRem;
+            }
+            this.trueX+=1/4*this.worldDimension
+
+        }else{
+            this.trueX = this.currentPoint.x
         }
         //check if buttons are being pressed to decide movement
         //then only move if within bounds and not moving already to prevent free movement
@@ -25,32 +51,36 @@ class Frog extends Rectangle {
         //start by setting up the routine and executing it once
         if(keyIsDown(87) || keyIsDown(UP_ARROW)){
             if(this.currentPoint.y - this.worldDimension >= 0 && !this.isMoving){
-                this.movePoint = createVector(this.currentPoint.x, this.currentPoint.y - this.worldDimension);
+                this.movePoint = createVector(this.trueX, this.currentPoint.y - this.worldDimension);
                 this.routine = gridMove(this)
                 this.routine.next()
             }
         }
         else if(keyIsDown(83) || keyIsDown(DOWN_ARROW)){
             if(this.currentPoint.y + this.worldDimension <= this.worldDimension * 13 && !this.isMoving){
-                this.movePoint = createVector(this.currentPoint.x, this.currentPoint.y + this.worldDimension);
+                this.movePoint = createVector(this.trueX, this.currentPoint.y + this.worldDimension);
                 this.routine = gridMove(this)
                 this.routine.next()
             }
         }
         else if(keyIsDown(65) || keyIsDown(LEFT_ARROW)){
             if(this.currentPoint.x - this.worldDimension >= 0 && !this.isMoving){
-                this.movePoint = createVector(this.currentPoint.x - this.worldDimension, this.currentPoint.y);
+                this.movePoint = createVector(this.trueX - this.worldDimension, this.currentPoint.y);
                 this.routine = gridMove(this)
                 this.routine.next()
             }
         }
         else if(keyIsDown(68) || keyIsDown(RIGHT_ARROW)){
             if(this.currentPoint.x + this.worldDimension <= 9 * this.worldDimension && !this.isMoving){
-                this.movePoint = createVector(this.currentPoint.x + this.worldDimension, this.currentPoint.y);
+                this.movePoint = createVector(this.trueX + this.worldDimension, this.currentPoint.y);
                 this.routine = gridMove(this)
                 this.routine.next()
             }
         }
+    }
+
+    onFloater(isFloating) {
+        this.isFloating = isFloating;
     }
 }
 //To move smoothly and perfectly within a grid

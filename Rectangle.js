@@ -1,16 +1,17 @@
 class Rectangle {
-    constructor(x, y, dimension){
+    constructor(x, y, width, height){
         this.currentPoint = createVector(x, y);
-        this.dimension = dimension;
+        this.width = width;
+        this.height = height;
     }
     intersects(other){
         let top = this.currentPoint.y;
-        let bot = this.currentPoint.y + this.dimension;
+        let bot = this.currentPoint.y + this.height;
         let left = this.currentPoint.x;
-        let right = this.currentPoint.x + this.dimension;
+        let right = this.currentPoint.x + this.width;
         let oTop = other.getY();
-        let oBot = other.getY() + other.getDimension();
-        let oRight = other.getX() + other.getDimension();
+        let oBot = other.getY() + other.getHeight();
+        let oRight = other.getX() + other.getWidth();
         let oLeft = other.getX();
         //if not outside of other objects's borders
         return !(
@@ -27,7 +28,10 @@ class Rectangle {
     getX() {
         return this.currentPoint.x;
     }
-    getDimension() {
-        return this.dimension;
+    getWidth() {
+        return this.width;
+    }
+    getHeight() {
+        return this.height;
     }
 }

@@ -1,6 +1,6 @@
 class MovingObject extends Rectangle {
-    constructor(x, y, dimension, direction, speed, worldDimension){
-        super(x, y, dimension);
+    constructor(x, y, width, height, direction, speed, worldDimension){
+        super(x, y, width, height);
         this.direction = direction;
         this.speed = speed;
         this.worldDimension = worldDimension;
@@ -8,13 +8,17 @@ class MovingObject extends Rectangle {
     display(){
         noStroke();
         fill(255, 0 , 0);
-        rect(this.currentPoint.x, this.currentPoint.y, this.dimension, this.dimension);
+        rect(this.currentPoint.x, this.currentPoint.y, this.width, this.height);
     }
     move(){
-        if(this.currentPoint.x > this.worldDimension * 11 && this.direction === 1){
-            this.currentPoint.x = - this.worldDimension;
-            console.log(true);
+        if(this.currentPoint.x > this.worldDimension * 11 + this.width && this.direction === 1){
+            this.currentPoint.x = -this.worldDimension - this.width;
+        }else if(this.currentPoint.x < -this.worldDimension - this.width && this.direction === -1){
+            this.currentPoint.x = 11 * this.worldDimension;
         }
         this.currentPoint.x += this.direction * this.speed * deltaTime/1000.0;
+    }
+    getMomentum(){
+        return this.direction * this.speed * deltaTime/1000.0
     }
 }
