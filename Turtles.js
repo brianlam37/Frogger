@@ -3,57 +3,59 @@ class Turtles extends MovingObjects {
         super(numRows, worldDimension)
     }
     setup(level){
+        const heightOffset = tileDimension;
         switch (level){
             case 1: {
                 this.movingObjects = []
                 for(let i = 0; i < 4; i++){
                     this.movingObjects.push(new Turtle(
                         this.worldDimension + (i * 3 * this.worldDimension), 
-                        this.worldDimension * 2, 
+                        this.worldDimension * 2 + heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        50, 
+                        75, 
                         this.worldDimension
                     ));
                     this.movingObjects.push(new Turtle(
-                        this.worldDimension + 0.5 * this.worldDimension + (i * 3 * this.worldDimension), 
-                        this.worldDimension * 2, 
+                        this.worldDimension + 0.6 * this.worldDimension + (i * 3 * this.worldDimension), 
+                        this.worldDimension * 2 + heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        50, 
+                        75, 
                         this.worldDimension
                     ));
                 }
-                for(let i = 0; i < 3; i++){
+                for(let i = 0; i < 4; i++){
                     this.movingObjects.push(new Turtle(
-                        1/6 * this.worldDimension + (i * 4 * this.worldDimension), 
-                        this.worldDimension * 5, 
+                        (i * 3 * this.worldDimension), 
+                        this.worldDimension * 5 + heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        50, 
+                        150, 
                         this.worldDimension
                     ));
                     this.movingObjects.push(new Turtle(
-                        1/6 * this.worldDimension + 0.5 * this.worldDimension + (i * 4 * this.worldDimension), 
-                        this.worldDimension * 5, 
+                        0.6 * this.worldDimension + (i * 3 * this.worldDimension), 
+                        this.worldDimension * 5 + heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        50, 
+                        150, 
                         this.worldDimension
                     ));
                     this.movingObjects.push(new Turtle(
-                        1/6 * this.worldDimension + this.worldDimension + (i * 4 * this.worldDimension), 
-                        this.worldDimension * 5, 
+                        1.2 * this.worldDimension + (i * 3 * this.worldDimension), 
+                        this.worldDimension * 5 + heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        50, 
+                        150, 
                         this.worldDimension
                     ));
+                    
                 }
                 break;
             }

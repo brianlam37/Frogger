@@ -14,8 +14,8 @@ class Home extends Terrain {
             rect(this.currentPoint.x + 1/4 * this.width, this.currentPoint.y + 1/4 * this.height, this.width/2, this.height/2);
         }
     }
-    fillHome(){
-        this.open = false;
+    fillHome(open){
+        this.open = open;
     }
     getOpen(){
         return this.open;

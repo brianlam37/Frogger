@@ -26,7 +26,7 @@ class Frog extends Rectangle {
         this.currentPoint.y = y;
         this.isMoving = false;
     }
-    move(){
+    move(leftBound, rightBound, upperBound, lowerBound){
         //if routine exists then execute the movement per frame per the draw function, returns undefined when frog has finished moving
         if(this.routine) { 
             this.routine.next()
@@ -50,28 +50,28 @@ class Frog extends Rectangle {
         //using a generator to run on each frame update,
         //start by setting up the routine and executing it once
         if(keyIsDown(87) || keyIsDown(UP_ARROW)){
-            if(this.currentPoint.y - this.worldDimension >= 0 && !this.isMoving){
+            if(this.currentPoint.y - this.worldDimension >= upperBound && !this.isMoving){
                 this.movePoint = createVector(this.trueX, this.currentPoint.y - this.worldDimension);
                 this.routine = gridMove(this)
                 this.routine.next()
             }
         }
         else if(keyIsDown(83) || keyIsDown(DOWN_ARROW)){
-            if(this.currentPoint.y + this.worldDimension <= this.worldDimension * 13 && !this.isMoving){
+            if(this.currentPoint.y + this.worldDimension <= lowerBound && !this.isMoving){
                 this.movePoint = createVector(this.trueX, this.currentPoint.y + this.worldDimension);
                 this.routine = gridMove(this)
                 this.routine.next()
             }
         }
         else if(keyIsDown(65) || keyIsDown(LEFT_ARROW)){
-            if(this.currentPoint.x - this.worldDimension >= 0 && !this.isMoving){
+            if(this.currentPoint.x - this.worldDimension >= leftBound && !this.isMoving){
                 this.movePoint = createVector(this.trueX - this.worldDimension, this.currentPoint.y);
                 this.routine = gridMove(this)
                 this.routine.next()
             }
         }
         else if(keyIsDown(68) || keyIsDown(RIGHT_ARROW)){
-            if(this.currentPoint.x + this.worldDimension <= 9 * this.worldDimension && !this.isMoving){
+            if(this.currentPoint.x + this.worldDimension <= rightBound && !this.isMoving){
                 this.movePoint = createVector(this.trueX + this.worldDimension, this.currentPoint.y);
                 this.routine = gridMove(this)
                 this.routine.next()
