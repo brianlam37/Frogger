@@ -1,4 +1,4 @@
-const tileDimension = 60;
+const tileDimension = 64;
 const numRows = 13;
 const numCols = 10;
 let gameOver;
@@ -14,6 +14,15 @@ let lives = 3;
 let lastDelta;
 let pause = false;
 let highScore = 0;
+let frogStaticSprite;
+let frogMovingSprite;
+let context; 
+function preload(){
+    frogStaticSprite = new Image();
+    frogStaticSprite.src = '/assets/frog_static.png';
+    frogMovingSprite = new Image();
+    frogMovingSprite.src = '/assets/frog_moving.png';
+}
 function setup() {
     turtles = new Turtles(numRows, tileDimension);
     cars = new Cars(numRows, tileDimension);
@@ -21,7 +30,13 @@ function setup() {
     gameMap = new GameMap(numCols, numRows, tileDimension, tileDimension);
     frog = new Frog(frogStartX, frogStartY, tileDimension/2, tileDimension/2, tileDimension);
     reset(frog, cars, logs, turtles, gameMap, 1);
-    createCanvas(tileDimension * numCols - 2/3 * tileDimension, tileDimension * (numRows + 2));
+    let canvasElement = createCanvas(tileDimension * numCols - 2/3 * tileDimension, tileDimension * (numRows + 2)).elt;
+    context = canvasElement.getContext('2d');
+    context.mozImageSmoothingEnabled = false;
+    context.webkitImageSmoothingEnabled = false;
+    context.msImageSmoothingEnabled = false;
+    context.imageSmoothingEnabled = false;
+    frog = new Frog(frogStartX, frogStartY, tileDimension/2, tileDimension/2, tileDimension, context, frogStaticSprite, frogMovingSprite);
 }
   
 function draw() {
@@ -40,7 +55,7 @@ function draw() {
     text(`Lives: ${lives}`, 0,  (numRows + 2)* tileDimension - tileDimension/2);
     if(!pause){
         if(!gameOver){
-            frog.move(0, (numCols - 1) * tileDimension, tileDimension, numRows * tileDimension);
+            frog.move(0, (numCols - 1) * tileDimension, tileDimension, (numRows + 1) * tileDimension);
             let currentRow = gameMap.getCurrentRow(frog)
             if(currentRow !== 0 && currentRow !== numRows - 1){
                 if(!gameMap.getRowEntered()){
