@@ -23,13 +23,13 @@ let context;
 let bg;
 function preload(){
     frogStaticSprite = new Image();
-    frogStaticSprite.src = '/assets/frog_static.png';
+    frogStaticSprite.src = './assets/frog_static.png';
     frogMovingSprite = new Image();
-    frogMovingSprite.src = '/assets/frog_moving.png';
+    frogMovingSprite.src = './assets/frog_moving.png';
     turtleMovingSprite = new Image();
-    turtleMovingSprite.src = '/assets/turtle.png'
+    turtleMovingSprite.src = './assets/turtle.png'
     bg = new Image();
-    bg.src = '/assets/frogger_background.png'
+    bg.src = './assets/frogger_background.png'
 }
 function setup() {
     let canvasElement = createCanvas(tileDimension * numCols, tileDimension * (numRows + 1)).elt;
