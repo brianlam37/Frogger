@@ -1,43 +1,43 @@
 
 class Logs extends MovingObjects {
-    constructor(numRows, worldDimension){
-        super(numRows, worldDimension)
+    constructor(numRows, worldDimension, context, movingSprite, heightOffset){
+        super(numRows, worldDimension, context, movingSprite, heightOffset)
     }
     setup(level){
-        const heightOffset = this.worldDimension;
+        console.log(this.heightOffset)
         switch (level){
             case 1: {
                 this.movingObjects = []
                 for(let i = 0; i < 4; i++){
                     this.movingObjects.push(new Log(
                         i * 4 * this.worldDimension, 
-                        this.worldDimension + heightOffset, 
+                        this.worldDimension + this.heightOffset, 
                         this.worldDimension/2 * 5, 
                         this.worldDimension, 
                         1, 
-                        75, 
+                        this.worldDimension * 1.5, 
                         this.worldDimension
                     ));
                 }
                 for(let i = 0; i < 3; i++){
                     this.movingObjects.push(new Log(
                         i * 6 * this.worldDimension, 
-                        this.worldDimension * 3 + heightOffset, 
+                        this.worldDimension * 3 + this.heightOffset, 
                         this.worldDimension * 5, 
                         this.worldDimension, 
                         1, 
-                        75, 
+                        this.worldDimension * 1.5, 
                         this.worldDimension
                     ));
                 }
                 for(let i = 0; i < 5; i++){
                     this.movingObjects.push(new Log(
                         i * 3 * this.worldDimension, 
-                        this.worldDimension * 4 + heightOffset, 
+                        this.worldDimension * 4 + this.heightOffset, 
                         this.worldDimension * 2, 
                         this.worldDimension, 
                         1, 
-                        50, 
+                        this.worldDimension, 
                         this.worldDimension
                     ));
                 }

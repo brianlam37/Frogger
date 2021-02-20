@@ -1,59 +1,68 @@
 class Turtles extends MovingObjects {
-    constructor(numRows, worldDimension){
-        super(numRows, worldDimension)
+    constructor(numRows, worldDimension, context, movingSprite, heightOffset, sinkingSprite){
+        super(numRows, worldDimension, context, movingSprite, heightOffset)
     }
     setup(level){
-        const heightOffset = tileDimension;
         switch (level){
             case 1: {
                 this.movingObjects = []
                 for(let i = 0; i < 4; i++){
                     this.movingObjects.push(new Turtle(
-                        this.worldDimension + (i * 3 * this.worldDimension), 
-                        this.worldDimension * 2 + heightOffset, 
+                        this.worldDimension + (i * 4 * this.worldDimension), 
+                        this.worldDimension * 2 + this.heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        75, 
-                        this.worldDimension
+                        this.worldDimension * 1.5, 
+                        this.worldDimension,
+                        this.context,
+                        this.movingSprite
                     ));
                     this.movingObjects.push(new Turtle(
-                        this.worldDimension + 0.6 * this.worldDimension + (i * 3 * this.worldDimension), 
-                        this.worldDimension * 2 + heightOffset, 
+                        this.worldDimension + this.worldDimension + (i * 4 * this.worldDimension), 
+                        this.worldDimension * 2 + this.heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        75, 
-                        this.worldDimension
+                        this.worldDimension * 1.5, 
+                        this.worldDimension,
+                        this.context,
+                        this.movingSprite
                     ));
                 }
                 for(let i = 0; i < 4; i++){
                     this.movingObjects.push(new Turtle(
-                        (i * 3 * this.worldDimension), 
-                        this.worldDimension * 5 + heightOffset, 
+                        (i * 4 * this.worldDimension), 
+                        this.worldDimension * 5 + this.heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        150, 
-                        this.worldDimension
+                        this.worldDimension * 3, 
+                        this.worldDimension,
+                        this.context,
+                        this.movingSprite
                     ));
                     this.movingObjects.push(new Turtle(
-                        0.6 * this.worldDimension + (i * 3 * this.worldDimension), 
-                        this.worldDimension * 5 + heightOffset, 
+                        this.worldDimension + (i * 4 * this.worldDimension), 
+                        this.worldDimension * 5 + this.heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        150, 
-                        this.worldDimension
+                        this.worldDimension * 3, 
+                        this.worldDimension,
+                        this.context,
+                        this.movingSprite
                     ));
                     this.movingObjects.push(new Turtle(
-                        1.2 * this.worldDimension + (i * 3 * this.worldDimension), 
-                        this.worldDimension * 5 + heightOffset, 
+                        2 * this.worldDimension + (i * 4 * this.worldDimension), 
+                        this.worldDimension * 5 + this.heightOffset, 
                         this.worldDimension, 
                         this.worldDimension, 
                         -1, 
-                        150, 
-                        this.worldDimension
+                        this.worldDimension * 3, 
+                        this.worldDimension,
+                        this.context,
+                        this.movingSprite
                     ));
                     
                 }

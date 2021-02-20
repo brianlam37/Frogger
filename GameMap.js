@@ -1,31 +1,27 @@
 class GameMap {
-    constructor(numCols, numRows, width, height){
+    constructor(numCols, numRows, width, height, heightOffset, background, context){
         this.numCols = numCols;
         this.numRows = numRows;
         this.width = width;
         this.height = height;
         this.level = [];
         this.currentTile;
-        this.homesIndex = [];
+        this.homes = [];
+        this.heightOffset = heightOffset;
+        this.background = background;
+        this.context = context;
     }
     setup(){
-        const grassGreen = color(0, 255, 0);
-        const waterBlue = color(0, 0, 200);
-        const sidewalkPurple = color(200, 0, 200);
-        const roadBlack = color(0, 0, 0);
         this.level = [];
         this.resetRowEntered()
-        const heightOffset = tileDimension;
+        for(let i = 0; i < 5; i++){
+            this.homes.push(new Home( i * 3 * this.width + this.width/4,  this.heightOffset, this.width, this.height))
+        }
         for(let rows = 0; rows < this.numRows; rows++){
             for(let cols = 0; cols < this.numCols; cols++){
                 switch(rows){
-                    case 0: {
-                        if(cols % 2 == 0){
-                            this.level.push(new Home(cols * this.width, rows * this.height + heightOffset, this.width, this. height, 'home'));
-                            this.homesIndex.push(cols)
-                        }else{                            
-                            this.level.push(new Terrain(cols * this.width, rows * this.height + heightOffset, this.width, this. height, 'grass', grassGreen));
-                        }
+                    case 0: {                          
+                        this.level.push(new Terrain(cols * this.width, rows * this.height + this.heightOffset, this.width, this. height, 'grass'));
                         break;
                     }
                     case 1:
@@ -33,40 +29,41 @@ class GameMap {
                     case 3:
                     case 4:
                     case 5:
-                        this.level.push(new Terrain(cols * this.width, rows * this.height + heightOffset, this.width, this. height, 'water', waterBlue));
+                        this.level.push(new Terrain(cols * this.width, rows * this.height + this.heightOffset, this.width, this. height, 'water'));
                         break;
                     case 6:
                     case 12:
-                        this.level.push(new Terrain(cols * this.width, rows * this.height + heightOffset, this.width, this. height, 'sidewalk', sidewalkPurple));
+                        this.level.push(new Terrain(cols * this.width, rows * this.height + this.heightOffset, this.width, this. height, 'sidewalk'));
                         break;
                     case 7:
                     case 8:
                     case 9:
                     case 10:
                     case 11:
-                        this.level.push(new Terrain(cols * this.width, rows * this.height + heightOffset, this.width, this. height, 'road', roadBlack));
+                        this.level.push(new Terrain(cols * this.width, rows * this.height + this.heightOffset, this.width, this. height, 'road'));
                         break;
                 }
             }
         }
     }
     display() {
-        for(let i = 0; i < this.level.length; i++){
-            this.level[i].display();  
+        this.context.drawImage(this.background, 0, this.heightOffset, this.width * this.numCols, this.height * this.numRows);
+        for(let i = 0; i < this.homes.length; i++){
+            this.homes[i].display();  
         }
     }
-    intersectsWater(other) {
+    intersectsBad(other) {
         for(let i = 0; i < this.level.length; i++){
-            if(this.level[i].intersects(other) && this.level[i].getType() === 'water'){
+            if(this.level[i].intersects(other) && (this.level[i].getType() === 'water' || this.level[i].getType() === 'grass')){
                 return true;
             }
         }
         return false;
     }
     intersectsHome(other) {
-        for(let i = 0; i < this.level.length; i++){
-            if(this.level[i].intersects(other) && this.level[i].getType() === 'home'){
-                this.currentTile = this.level[i];
+        for(let i = 0; i < this.homes.length; i++){
+            if(this.homes[i].intersects(other)){
+                this.currentTile = this.homes[i];
                 return true;
             }
         }
@@ -97,10 +94,8 @@ class GameMap {
         }
     }
     allFilled(){
-
-        for(let cols = 0; cols < this.homesIndex.length;cols++){
-            if(this.level[this.homesIndex[cols]].getOpen()){
-                console.log(`${this.homesIndex[cols]}: ${this.level[this.homesIndex[cols]].getOpen()}`)
+        for(let home = 0; home < this.homes.length; home++){
+            if(this.homes[home].getOpen()){
                 return false;
             }
         }

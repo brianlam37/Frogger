@@ -1,6 +1,10 @@
-const tileDimension = 64;
+const tileDimension = 60;
 const numRows = 13;
-const numCols = 10;
+const numCols = 14;
+const heightOffset = tileDimension/2;
+const frogStartX = (tileDimension * numCols/2) - 3/4 * tileDimension;
+const frogStartY = tileDimension * (numRows - 1) + tileDimension/4 + heightOffset;
+
 let gameOver;
 let gameMap;
 let frog;
@@ -8,54 +12,61 @@ let cars;
 let logs;
 let turtles;
 let score;
-let frogStartX = (tileDimension * numCols/2) - 3/4 * tileDimension;
-let frogStartY = tileDimension * (numRows) + 1/4 * tileDimension;
 let lives = 3;
 let lastDelta;
 let pause = false;
 let highScore = 0;
 let frogStaticSprite;
 let frogMovingSprite;
+let turtleMovingSprite;
 let context; 
+let bg;
 function preload(){
     frogStaticSprite = new Image();
     frogStaticSprite.src = '/assets/frog_static.png';
     frogMovingSprite = new Image();
     frogMovingSprite.src = '/assets/frog_moving.png';
+    turtleMovingSprite = new Image();
+    turtleMovingSprite.src = '/assets/turtle.png'
+    bg = new Image();
+    bg.src = '/assets/frogger_background.png'
 }
 function setup() {
-    turtles = new Turtles(numRows, tileDimension);
-    cars = new Cars(numRows, tileDimension);
-    logs = new Logs(numRows, tileDimension);
-    gameMap = new GameMap(numCols, numRows, tileDimension, tileDimension);
-    frog = new Frog(frogStartX, frogStartY, tileDimension/2, tileDimension/2, tileDimension);
-    reset(frog, cars, logs, turtles, gameMap, 1);
-    let canvasElement = createCanvas(tileDimension * numCols - 2/3 * tileDimension, tileDimension * (numRows + 2)).elt;
+    let canvasElement = createCanvas(tileDimension * numCols, tileDimension * (numRows + 1)).elt;
     context = canvasElement.getContext('2d');
     context.mozImageSmoothingEnabled = false;
     context.webkitImageSmoothingEnabled = false;
     context.msImageSmoothingEnabled = false;
     context.imageSmoothingEnabled = false;
+
+    turtles = new Turtles(numRows, tileDimension, context, turtleMovingSprite, heightOffset);
+    cars = new Cars(numRows, tileDimension, context, turtleMovingSprite, heightOffset);
+    logs = new Logs(numRows, tileDimension, context, turtleMovingSprite, heightOffset);
+    gameMap = new GameMap(numCols, numRows, tileDimension, tileDimension, heightOffset, bg, context);
     frog = new Frog(frogStartX, frogStartY, tileDimension/2, tileDimension/2, tileDimension, context, frogStaticSprite, frogMovingSprite);
+    reset(frog, cars, logs, turtles, gameMap, 1);
 }
   
 function draw() {
     background(220);
     gameMap.display();
     logs.display();
-    logs.move();
+    logs.move(tileDimension * (numCols));
     turtles.display();
     frog.display();
     cars.display();
-    cars.move();
-    turtles.move();
+    cars.move(tileDimension * (numCols));
+    turtles.move(tileDimension * (numCols));
     fill(0);
-    text(`Score: ${score}`, 0, tileDimension/2);
-    text(`High Score: ${highScore}`, (tileDimension * numCols/2), tileDimension/2);
-    text(`Lives: ${lives}`, 0,  (numRows + 2)* tileDimension - tileDimension/2);
+    text(`Score: ${score}`, 0, tileDimension/4);
+    text(`High Score: ${highScore}`, (tileDimension * numCols/2), tileDimension/4);
+    text(`Lives: ${lives}`, (tileDimension * numCols * 0.75),  tileDimension/4);
+    if(highScore < score){
+        highScore = score;
+    }
     if(!pause){
         if(!gameOver){
-            frog.move(0, (numCols - 1) * tileDimension, tileDimension, (numRows + 1) * tileDimension);
+            frog.move(0, numCols * tileDimension, heightOffset, (numRows + 1) * tileDimension);
             let currentRow = gameMap.getCurrentRow(frog)
             if(currentRow !== 0 && currentRow !== numRows - 1){
                 if(!gameMap.getRowEntered()){
@@ -63,7 +74,6 @@ function draw() {
                     score+=10;
                 }
             }
-
             if(logs.intersects(frog)){
                 frog.onFloater(true);
                 frog.floatMove(logs.getMomentum());
@@ -71,10 +81,6 @@ function draw() {
             else if(turtles.intersects(frog)){
                 frog.onFloater(true);
                 frog.floatMove(turtles.getMomentum());
-            }else if(gameMap.intersectsWater(frog) || cars.intersects(frog)){
-                fill(200,200,200);
-                rect(frog.getX(), frog.getY(), tileDimension, tileDimension);
-                reduceLives();
             }else if(gameMap.intersectsHome(frog)){
                 if(!gameMap.getCurrentTile().getOpen()){
                     fill(200,200,200);
@@ -89,6 +95,10 @@ function draw() {
                         score+=1000;
                     }
                 }
+            }else if(gameMap.intersectsBad(frog) || cars.intersects(frog)){
+                fill(200,200,200);
+                rect(frog.getX(), frog.getY(), tileDimension, tileDimension);
+                reduceLives();
             }else{
                 frog.onFloater(false);
             }

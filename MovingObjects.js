@@ -1,9 +1,12 @@
 class MovingObjects {
-    constructor(numRows, worldDimension){
+    constructor(numRows, worldDimension, context, movingSprite, heightOffset){
         this.worldDimension = worldDimension;
         this.movingObjects;
         this.numRows = numRows;
         this.currentMomentum;
+        this.context = context;
+        this.movingSprite = movingSprite;
+        this.heightOffset = heightOffset;
     }
     
     display() {
@@ -11,10 +14,9 @@ class MovingObjects {
             this.movingObjects[i].display();
         }
     }
-    move() {
-
+    move(rightBound) {
         for(let i = 0; i < this.movingObjects.length; i++){
-            this.movingObjects[i].move();
+            this.movingObjects[i].move(rightBound);
         }
     }
     intersects(other) {

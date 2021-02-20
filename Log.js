@@ -1,6 +1,6 @@
 class Log extends MovingObject {
-    constructor(x, y, width, height, direction, speed, worldDimension){
-        super(x, y, width, height, direction, speed, worldDimension);
+    constructor(x, y, width, height, direction, speed, worldDimension, context){
+        super(x, y, width, height, direction, speed, worldDimension, context);
     } 
     display(){
         noStroke();
