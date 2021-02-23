@@ -17,7 +17,7 @@ class Cars extends MovingObjects{
                             -1, 
                             this.worldDimension,
                             this.worldDimension,
-                            this.context,
+                            
                             this.spriteSheet,
                             'left'
                         ));
@@ -32,7 +32,6 @@ class Cars extends MovingObjects{
                             1, 
                             this.worldDimension + this.worldDimension/2, 
                             this.worldDimension,
-                            this.context,
                             this.spriteSheet,
                             'bulldozer'
                         ));
@@ -47,7 +46,6 @@ class Cars extends MovingObjects{
                             -1, 
                             this.worldDimension, 
                             this.worldDimension,
-                            this.context,
                             this.spriteSheet,
                             'buggy'
                         ));
@@ -62,7 +60,6 @@ class Cars extends MovingObjects{
                             1, 
                             this.worldDimension * 3, 
                             this.worldDimension,
-                            this.context,
                             this.spriteSheet,
                             'right'
                         ));
@@ -78,7 +75,6 @@ class Cars extends MovingObjects{
                             -1, 
                             this.worldDimension * 2, 
                             this.worldDimension,
-                            this.context,
                             this.spriteSheet,
                             'truck'
 

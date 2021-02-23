@@ -1,10 +1,9 @@
 class Turtle extends Log {
-    constructor(x, y, width, height, direction, speed, worldDimension, context, spriteSheet, sinker){
-        super(x, y, width, height, direction, speed, worldDimension, context, spriteSheet);
+    constructor(x, y, width, height, direction, speed, worldDimension, spriteSheet, sinker){
+        super(x, y, width, height, direction, speed, worldDimension, spriteSheet);
         this.aniIndex = 0;
         this.routine = this.moveAni(this);
         this.sinker = sinker
-        // this.movingSprite = movingSprite;
     } 
 
     display(){
@@ -13,19 +12,19 @@ class Turtle extends Log {
         }
         switch(this.aniIndex){
             case 0: 
-                this.context.drawImage(this.spriteSheet, 0, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
+                drawingContext.drawImage(this.spriteSheet, 0, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
                 break;
             case 1:
-                this.context.drawImage(this.spriteSheet, 32, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
+                drawingContext.drawImage(this.spriteSheet, 32, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
                 break;
             case 2:
-                this.context.drawImage(this.spriteSheet, 64, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
+                drawingContext.drawImage(this.spriteSheet, 64, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
                 break;
             case 3:
-                this.context.drawImage(this.spriteSheet, 96, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
+                drawingContext.drawImage(this.spriteSheet, 96, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
                 break;
             case 4:
-                this.context.drawImage(this.spriteSheet, 128, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
+                drawingContext.drawImage(this.spriteSheet, 128, 0, 32, 32, this.currentPoint.x, this.currentPoint.y, this.worldDimension, this.worldDimension)
                 break;
             case 5:
                 break;

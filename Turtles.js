@@ -14,8 +14,7 @@ class Turtles extends MovingObjects {
                         this.worldDimension, 
                         -1, 
                         this.worldDimension * 1.5, 
-                        this.worldDimension,
-                        this.context,
+                        this.worldDimension,    
                         this.spriteSheet,
                         i === 0 ? true : false
                     ));
@@ -27,7 +26,6 @@ class Turtles extends MovingObjects {
                         -1, 
                         this.worldDimension * 1.5, 
                         this.worldDimension,
-                        this.context,
                         this.spriteSheet,
                         i === 0 ? true : false
                     ));
@@ -41,7 +39,6 @@ class Turtles extends MovingObjects {
                         -1, 
                         this.worldDimension * 3, 
                         this.worldDimension,
-                        this.context,
                         this.spriteSheet,
                         i === 0 ? true : false
                     ));
@@ -53,7 +50,6 @@ class Turtles extends MovingObjects {
                         -1, 
                         this.worldDimension * 3, 
                         this.worldDimension,
-                        this.context,
                         this.spriteSheet,
                         i === 0 ? true : false
                     ));
@@ -65,7 +61,6 @@ class Turtles extends MovingObjects {
                         -1, 
                         this.worldDimension * 3, 
                         this.worldDimension,
-                        this.context,
                         this.spriteSheet,
                         i === 0 ? true : false
                     ));

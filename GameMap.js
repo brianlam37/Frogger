@@ -1,5 +1,5 @@
 class GameMap {
-    constructor(numCols, numRows, width, height, heightOffset, background, context){
+    constructor(numCols, numRows, width, height, heightOffset, background){
         this.numCols = numCols;
         this.numRows = numRows;
         this.width = width;
@@ -9,7 +9,6 @@ class GameMap {
         this.homes = [];
         this.heightOffset = heightOffset;
         this.background = background;
-        this.context = context;
     }
     setup(){
         this.level = [];
@@ -47,7 +46,7 @@ class GameMap {
         }
     }
     display() {
-        this.context.drawImage(this.background, 0, this.heightOffset, this.width * this.numCols, this.height * this.numRows);
+        drawingContext.drawImage(this.background, 0, this.heightOffset, this.width * this.numCols, this.height * this.numRows);
         for(let i = 0; i < this.homes.length; i++){
             this.homes[i].display();  
         }

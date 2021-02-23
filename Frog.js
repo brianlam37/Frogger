@@ -1,12 +1,11 @@
 class Frog extends Rectangle {
-    constructor(x, y, width, height, worldDimension, context, staticSprite, movingSprite){
+    constructor(x, y, width, height, worldDimension, staticSprite, movingSprite){
         super(x, y, width, height);
         this.worldDimension = worldDimension;
         this.currentPoint = createVector(x, y);
         this.movePoint = this.currentPoint;
         this.isMoving = false;
         this.isFloating = false;
-        this.context = context;
         this.staticSprite = staticSprite;
         this.movingSprite = movingSprite;
         this.direction = 'up'
@@ -16,13 +15,13 @@ class Frog extends Rectangle {
 
     display() {
         if(this.direction === 'up'){
-            this.context.drawImage(this.currentSprite, 0, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            drawingContext.drawImage(this.currentSprite, 0, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
         }else if(this.direction === 'down'){
-            this.context.drawImage(this.currentSprite, 32, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            drawingContext.drawImage(this.currentSprite, 32, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
         }else if(this.direction === 'left'){
-            this.context.drawImage(this.currentSprite, 64, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            drawingContext.drawImage(this.currentSprite, 64, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
         }else if(this.direction === 'right'){
-            this.context.drawImage(this.currentSprite, 96, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            drawingContext.drawImage(this.currentSprite, 96, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
         }
 
     }
@@ -39,6 +38,7 @@ class Frog extends Rectangle {
         this.currentSprite = this.staticSprite;
         this.direction = 'up'
         this.inAnimation = false;
+        this.isFloating = false;
     }
     move(leftBound, rightBound, upperBound, lowerBound){
         //if routine exists then execute the movement per frame per the draw function, returns undefined when frog has finished moving
@@ -56,7 +56,7 @@ class Frog extends Rectangle {
             }else {
                 this.trueX = this.currentPoint.x - xRem;
             }
-            this.trueX+=1/4*this.worldDimension
+            this.trueX += 1/4 * this.worldDimension
         }
         //check if buttons are being pressed to decide movement
         //then only move if within bounds and not moving already to prevent free movement

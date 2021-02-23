@@ -1,0 +1,17 @@
+Frog class
+-Death animation
+
+Home class
+-Frog sprite instead of rectangle
+
+Overall game
+-clear homes on reaching all 5
+-gameover screen
+-start menu
+-localStorage for high score?
+
+New things to add:
+Fly, lady frog, alligator, snake, new levels
+
+Miscellaneous:
+-add comments to classes

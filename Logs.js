@@ -1,6 +1,6 @@
 class Logs extends MovingObjects {
-    constructor(numRows, worldDimension, context, spriteSheet, heightOffset){
-        super(numRows, worldDimension, context, spriteSheet, heightOffset)
+    constructor(numRows, worldDimension, spriteSheet, heightOffset){
+        super(numRows, worldDimension, spriteSheet, heightOffset)
     }
     setup(level){
         switch (level){
@@ -15,7 +15,6 @@ class Logs extends MovingObjects {
                         1, 
                         this.worldDimension * 1.5, 
                         this.worldDimension,
-                        this.context,
                         this.spriteSheet 
                     ));
                 }
@@ -27,8 +26,7 @@ class Logs extends MovingObjects {
                         this.worldDimension, 
                         1, 
                         this.worldDimension * 1.5, 
-                        this.worldDimension,
-                        this.context,
+                        this.worldDimension,                
                         this.spriteSheet 
                     ));
                 }
@@ -40,8 +38,7 @@ class Logs extends MovingObjects {
                         this.worldDimension, 
                         1, 
                         this.worldDimension, 
-                        this.worldDimension,
-                        this.context,
+                        this.worldDimension,                    
                         this.spriteSheet 
                     ));
                 }

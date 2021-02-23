@@ -1,10 +1,9 @@
 class MovingObject extends Rectangle {
-    constructor(x, y, width, height, direction, speed, worldDimension, context, spriteSheet){
+    constructor(x, y, width, height, direction, speed, worldDimension, spriteSheet){
         super(x, y, width, height);
         this.direction = direction;
         this.speed = speed;
         this.worldDimension = worldDimension;
-        this.context = context;
         this.spriteSheet = spriteSheet;
     } 
     display(){
