@@ -1,4 +1,4 @@
-const tileDimension = 60;
+const tileDimension = 64;
 const numRows = 13;
 const numCols = 14;
 const heightOffset = tileDimension/2;
@@ -19,6 +19,8 @@ let highScore = 0;
 let frogStaticSprite;
 let frogMovingSprite;
 let turtleMovingSprite;
+let vehicleSprite;
+let logSprite;
 let context; 
 let bg;
 function preload(){
@@ -30,6 +32,10 @@ function preload(){
     turtleMovingSprite.src = './assets/turtle.png'
     bg = new Image();
     bg.src = './assets/frogger_background.png'
+    vehicleSprite = new Image();
+    vehicleSprite.src = './assets/vehicles.png'
+    logSprite = new Image();
+    logSprite.src = './assets/log.png'
 }
 function setup() {
     let canvasElement = createCanvas(tileDimension * numCols, tileDimension * (numRows + 1)).elt;
@@ -40,8 +46,8 @@ function setup() {
     context.imageSmoothingEnabled = false;
 
     turtles = new Turtles(numRows, tileDimension, context, turtleMovingSprite, heightOffset);
-    cars = new Cars(numRows, tileDimension, context, turtleMovingSprite, heightOffset);
-    logs = new Logs(numRows, tileDimension, context, turtleMovingSprite, heightOffset);
+    cars = new Cars(numRows, tileDimension, context, vehicleSprite, heightOffset);
+    logs = new Logs(numRows, tileDimension, context, logSprite, heightOffset);
     gameMap = new GameMap(numCols, numRows, tileDimension, tileDimension, heightOffset, bg, context);
     frog = new Frog(frogStartX, frogStartY, tileDimension/2, tileDimension/2, tileDimension, context, frogStaticSprite, frogMovingSprite);
     reset(frog, cars, logs, turtles, gameMap, 1);
@@ -66,7 +72,7 @@ function draw() {
     }
     if(!pause){
         if(!gameOver){
-            frog.move(0, numCols * tileDimension, heightOffset, (numRows + 1) * tileDimension);
+            frog.move(0, numCols * tileDimension, heightOffset, (numRows) * tileDimension);
             let currentRow = gameMap.getCurrentRow(frog)
             if(currentRow !== 0 && currentRow !== numRows - 1){
                 if(!gameMap.getRowEntered()){

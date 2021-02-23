@@ -1,11 +1,11 @@
 class MovingObjects {
-    constructor(numRows, worldDimension, context, movingSprite, heightOffset){
+    constructor(numRows, worldDimension, context, spriteSheet, heightOffset){
         this.worldDimension = worldDimension;
         this.movingObjects;
         this.numRows = numRows;
         this.currentMomentum;
         this.context = context;
-        this.movingSprite = movingSprite;
+        this.spriteSheet = spriteSheet;
         this.heightOffset = heightOffset;
     }
     

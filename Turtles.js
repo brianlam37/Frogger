@@ -1,6 +1,6 @@
 class Turtles extends MovingObjects {
-    constructor(numRows, worldDimension, context, movingSprite, heightOffset, sinkingSprite){
-        super(numRows, worldDimension, context, movingSprite, heightOffset)
+    constructor(numRows, worldDimension, context, spriteSheet, heightOffset){
+        super(numRows, worldDimension, context, spriteSheet, heightOffset)
     }
     setup(level){
         switch (level){
@@ -16,7 +16,8 @@ class Turtles extends MovingObjects {
                         this.worldDimension * 1.5, 
                         this.worldDimension,
                         this.context,
-                        this.movingSprite
+                        this.spriteSheet,
+                        i === 0 ? true : false
                     ));
                     this.movingObjects.push(new Turtle(
                         this.worldDimension + this.worldDimension + (i * 4 * this.worldDimension), 
@@ -27,7 +28,8 @@ class Turtles extends MovingObjects {
                         this.worldDimension * 1.5, 
                         this.worldDimension,
                         this.context,
-                        this.movingSprite
+                        this.spriteSheet,
+                        i === 0 ? true : false
                     ));
                 }
                 for(let i = 0; i < 4; i++){
@@ -40,7 +42,8 @@ class Turtles extends MovingObjects {
                         this.worldDimension * 3, 
                         this.worldDimension,
                         this.context,
-                        this.movingSprite
+                        this.spriteSheet,
+                        i === 0 ? true : false
                     ));
                     this.movingObjects.push(new Turtle(
                         this.worldDimension + (i * 4 * this.worldDimension), 
@@ -51,7 +54,8 @@ class Turtles extends MovingObjects {
                         this.worldDimension * 3, 
                         this.worldDimension,
                         this.context,
-                        this.movingSprite
+                        this.spriteSheet,
+                        i === 0 ? true : false
                     ));
                     this.movingObjects.push(new Turtle(
                         2 * this.worldDimension + (i * 4 * this.worldDimension), 
@@ -62,7 +66,8 @@ class Turtles extends MovingObjects {
                         this.worldDimension * 3, 
                         this.worldDimension,
                         this.context,
-                        this.movingSprite
+                        this.spriteSheet,
+                        i === 0 ? true : false
                     ));
                     
                 }
