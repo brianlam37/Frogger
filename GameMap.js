@@ -1,5 +1,5 @@
 class GameMap {
-    constructor(numCols, numRows, width, height, heightOffset, background){
+    constructor(numCols, numRows, width, height, heightOffset, background, homeFrog){
         this.numCols = numCols;
         this.numRows = numRows;
         this.width = width;
@@ -9,12 +9,14 @@ class GameMap {
         this.homes = [];
         this.heightOffset = heightOffset;
         this.background = background;
+        this.homeFrog = homeFrog
     }
     setup(){
         this.level = [];
+        this.homes = [];
         this.resetRowEntered()
         for(let i = 0; i < 5; i++){
-            this.homes.push(new Home( i * 3 * this.width + this.width/4,  this.heightOffset, this.width, this.height))
+            this.homes.push(new Home( i * 3 * this.width + this.width/4,  this.heightOffset, this.width, this.height, 'home', this.homeFrog))
         }
         for(let rows = 0; rows < this.numRows; rows++){
             for(let cols = 0; cols < this.numCols; cols++){
@@ -99,5 +101,10 @@ class GameMap {
             }
         }
         return true;
+    }
+    clearFilled(){
+        for(let home = 0; home < this.homes.length; home++){
+            this.homes[home].setOpen(true)
+        }
     }
 }

@@ -17,6 +17,8 @@ class Timer{
         fill(255, 255, 0);
         textSize(this.worldDimension/4)
         text('TIME', this.currentPoint.x , this.currentPoint.y + this.height/2, this.worldDimension, this.worldDimension);
+        fill(0, 150, 0);
+        rect(this.currentPoint.x - this.worldDimension/4, this.currentPoint.y + this.height/2, -this.initialWidth, this.height);
         fill(0, 255, 0);
         rect(this.currentPoint.x - this.worldDimension/4, this.currentPoint.y + this.height/2, -this.width, this.height);
     }

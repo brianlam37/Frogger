@@ -1,5 +1,5 @@
 class Frog extends Rectangle {
-    constructor(x, y, width, height, worldDimension, staticSprite, movingSprite){
+    constructor(x, y, width, height, worldDimension, staticSprite, movingSprite, deathSprite, lives){
         super(x, y, width, height);
         this.worldDimension = worldDimension;
         this.currentPoint = createVector(x, y);
@@ -11,17 +11,55 @@ class Frog extends Rectangle {
         this.direction = 'up'
         this.currentSprite = this.staticSprite;
         this.inAnimation = false;
+        this.isDead = false;
+        this.aniIndex;
+        this.deathSprite = deathSprite;
+        this.start = this.currentPoint;
+        this.lives = lives;
     }
 
     display() {
-        if(this.direction === 'up'){
-            drawingContext.drawImage(this.currentSprite, 0, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
-        }else if(this.direction === 'down'){
-            drawingContext.drawImage(this.currentSprite, 32, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
-        }else if(this.direction === 'left'){
-            drawingContext.drawImage(this.currentSprite, 64, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
-        }else if(this.direction === 'right'){
-            drawingContext.drawImage(this.currentSprite, 96, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+        if(!this.isDead){
+            if(this.direction === 'up'){
+                drawingContext.drawImage(this.currentSprite, 0, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            }else if(this.direction === 'down'){
+                drawingContext.drawImage(this.currentSprite, 32, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            }else if(this.direction === 'left'){
+                drawingContext.drawImage(this.currentSprite, 64, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            }else if(this.direction === 'right'){
+                drawingContext.drawImage(this.currentSprite, 96, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension)
+            }
+        }else{
+            if(this.deathType === 'water'){
+                switch(this.aniIndex){
+                    case 0:
+                        drawingContext.drawImage(this.currentSprite, 96, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension);
+                        break;
+                    case 1:
+                        drawingContext.drawImage(this.currentSprite, 128, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension);
+                        break;
+                    case 2:
+                        drawingContext.drawImage(this.currentSprite, 160, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension);
+                        break;
+                    case 3:
+                        break;
+                }
+            }else{
+                switch(this.aniIndex){
+                    case 0:
+                        drawingContext.drawImage(this.currentSprite, 0, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension);
+                        break;
+                    case 1:
+                        drawingContext.drawImage(this.currentSprite, 32, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension);
+                        break;
+                    case 2:
+                        drawingContext.drawImage(this.currentSprite, 64, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension);
+                        break;
+                    case 3:
+                        drawingContext.drawImage(this.currentSprite, 192, 0, 32, 32, this.currentPoint.x - this.width/2, this.currentPoint.y - this.height/2, this.worldDimension, this.worldDimension);
+                        break;
+                }
+            }
         }
 
     }
@@ -30,17 +68,21 @@ class Frog extends Rectangle {
             this.currentPoint.x += momentum;
         }
     }
-    resetPos(x,y){
+    resetPos(lives){
         this.routine = null;
-        this.currentPoint.x = x;
-        this.currentPoint.y = y;
+        this.currentPoint = this.start;
         this.isMoving = false;
         this.currentSprite = this.staticSprite;
         this.direction = 'up'
         this.inAnimation = false;
         this.isFloating = false;
+        this.isDead = false;
+        this.lives = lives;
     }
     move(leftBound, rightBound, upperBound, lowerBound){
+        if(this.currentPoint.x > rightBound || this.currentPoint.x + this.width < leftBound){
+            this.setDead('water');
+        }
         //if routine exists then execute the movement per frame per the draw function, returns undefined when frog has finished moving
         if(this.routine) { 
             this.routine.next()
@@ -140,6 +182,51 @@ class Frog extends Rectangle {
             yield null;
         }
         player.inAnimation = false;
-}
+    }
+    *deathAni(player){
+        const numOfFrames = 4;
+        const timePerFrame = 200
+        const timeToMove = timePerFrame * numOfFrames;
+        const frequency = timeToMove/timePerFrame
+        //used to prevent any more calls to player ie stopping the user from moving it off a grid square
+        player.isDead = true;
+        player.inAnimation = true;
+        player.currentSprite = player.deathSprite;
+
+        //time that has happened in total between frames
+        let elapsedTime = 0.0;
+        while(elapsedTime < timeToMove){
+            if(elapsedTime < timeToMove/frequency){
+                player.aniIndex = 0;
+            }else if(elapsedTime < 2 * timeToMove/frequency){
+                player.aniIndex = 1;
+            }else if(elapsedTime < 3 * timeToMove/frequency){
+                player.aniIndex = 2;
+            }else{
+                player.aniIndex = 3;
+            }
+            elapsedTime += deltaTime
+            yield null;
+        }
+        this.routine = null;
+        this.resetPos(this.lives);
+    }
+    getDead(){
+        return this.isDead;
+    }
+    setDead(type){
+        this.deathType = type;
+        this.routine = this.deathAni(this);
+        this.routine.next()
+        this.lives--;
+    }
+    dying(){
+        if(this.routine){
+            this.routine.next();
+        }
+    }
+    getLives(){
+        return this.lives;
+    }
 }
 

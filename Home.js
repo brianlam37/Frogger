@@ -1,15 +1,15 @@
 class Home extends Terrain {
-    constructor(x, y, width, height, type){
+    constructor(x, y, width, height, type, sprite){
         super(x, y, width, height, type);
         this.open = true;
+        this.sprite = sprite;
     } 
     display(){
         if(!this.open){
-            fill(0, 200, 0);
-            rect(this.currentPoint.x + 1/4 * this.width, this.currentPoint.y + 1/4 * this.height, this.width/2, this.height/2);
+            drawingContext.drawImage(this.sprite, 0, 0, 32, 32, this.currentPoint.x + 1/4 * this.width, this.currentPoint.y, this.width, this.height)
         }
     }
-    fillHome(open){
+    setOpen(open){
         this.open = open;
     }
     getOpen(){
