@@ -11,7 +11,7 @@ main {
 	flex-direction: column;
 	background-color: #000;
 	min-height: 100vh;
-	background-image: url('/assets/bgimg.jpg');
+	background-image: url('./assets/bgimg.jpg');
 	object-fit: cover;
 }
 
